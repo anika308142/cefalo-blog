@@ -1,4 +1,5 @@
 const db=require('../models');
+
 const Post=db.Post;
 const User=db.User;
 const errHandler=(err)=>{

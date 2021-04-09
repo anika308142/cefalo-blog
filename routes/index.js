@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var usersRouter = require('./users');
 var postsRouter = require('./posts');
+//var auth=require('../middleware/authenticateToken')
 /* GET home page. */
 
  router.get('/', function(req, res, next) {
