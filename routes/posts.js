@@ -4,12 +4,10 @@ var router = express.Router();
 var authenticateToken=require('../middleware/authenticateToken');
 
 router.post('/',authenticateToken,function(req, res) {
- console.log("in post router");
  postController.createPost(req, res);
 });
 
 router.get('/',function(req, res, next) {
-  console.log("in post ");
   postController.readPost(req, res);
 
 });

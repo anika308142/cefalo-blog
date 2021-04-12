@@ -1,14 +1,14 @@
 const db = require('../models');
 const Post = db.Post;
 const User = db.User;
-
+const { Op } = require("sequelize");
 const errHandler = (err) => {
   console.error("Error", err);
 }
 exports.createPost = async (req, res) => {
   const post = await Post.create({
-    pid: req.body.pid,
-    uid: req.body.uid,
+    pid:Math.random(),
+    uid: req.user.uid,
     title: req.body.title,
     story: req.body.story
   }).catch(errHandler);
@@ -16,17 +16,20 @@ exports.createPost = async (req, res) => {
 };
 
 exports.readPost = async (req, res) => {
-  User.hasMany(Post, { foreignKey: 'uid' });
-  Post.belongsTo(User, { foreignKey: 'uid' });
-  const posts = await Post.findAll({
-    include: [{
-      model: User,
-      attributes: ['name'],
-      required: true
-    }]
-  }).catch(errHandler);
-  res.send(posts);
-};
+  User.hasMany(Post, {foreignKey: 'uid'});
+  Post.belongsTo(User, {foreignKey: 'uid'});
+  
+  // const posts=await Post.findAll({
+  //   include: [{
+  //     model: User,
+  //     attributes: ['name'],
+  //     required: true
+  //    }]
+  // });
+  //   console.log("in post read  contrroller");
+ const posts= await Post.findAll();
+    res.send(posts);
+      };
 
 exports.readPostbyPid = async (req, res) => {
   const posts = await Post.findAll({
@@ -34,10 +37,13 @@ exports.readPostbyPid = async (req, res) => {
       pid: req.params.pid,
     }
   }).catch(errHandler);
-  res.send(posts);
+  if(posts==1)
+  {res.send(posts);}
+  else {res.send("not found");}
 };
 
 exports.updatePost = async (req, res) => {
+  
   const posts = await Post.update({
     title: req.body.title,
     story: req.body.story
@@ -45,10 +51,12 @@ exports.updatePost = async (req, res) => {
   }, {
     where: {
       pid: req.params.pid,
-      uid: req.body.uid,
+      uid: req.user.uid,
     }
   }).catch(errHandler);
-  res.send(posts);
+  if(posts==1)
+  {res.send("updated");}
+  else {res.send("failed");}
 
 };
 
@@ -57,9 +65,11 @@ exports.deletePost = async (req, res) => {
   const posts = await Post.destroy({
     where: {
       pid: req.params.pid,
-
+      uid: req.user.uid,
     }
   }).catch(errHandler);
-  res.send("deleted");
+  if(posts==1)
+  {res.send("deleted");}
+  else {res.send("failed");}
 
 };
