@@ -4,6 +4,7 @@ const path = require('path');
 const dotenv = require('dotenv');
 const indexRouter = require('./routes/index');
 const app = express();
+require('mysql2/node_modules/iconv-lite').encodingExists('cesu8');
 let port = process.env.PORT;
 
 dotenv.config();

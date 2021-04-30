@@ -31,20 +31,32 @@ exports.createUser = async (req, res) => {
   }
 };
 exports.loginUser = async (req, res) => {
+  // console.log(req)
+  // console.log(req.body.uid)
   if (!req.body.uid || !req.body.password) {
-    res.status(400).json({
-      message: "Username or password can not be empty!"
+    // res.status(400).json({
+    //   message: "Username or password can not be empty!"
+    // });
+    res.status(400);
+    res.json({ 
+      message: "Username or password can not be empty!" 
     });
     return;
   }
+ 
   let users = await User.findOne({
     where: {
       uid: req.body.uid,
     }
   }).catch(errHandler);
+  // console.log(users.password+'shit')
+  // console.log(users.uid+'shit')
+   console.log(User)
+  //console.log(users)
   if (users == null) {
     res.cookie('Authorization', 'null', [options]);
-    res.status(404).json({
+    res.status(404);
+    res.json({
       message: "User not found please register!"
     });
     return;
@@ -57,14 +69,16 @@ exports.loginUser = async (req, res) => {
   }).catch(errHandler);
   if (users == null) {
     res.cookie('Authorization', 'null', [options]);
-    res.status(403).json({
+    res.status(403);
+    res.json({
       message: "Password is incorrect!"
     });
   }
   else {
     const accessToken = await generateToken.generateAccessToken({ uid: req.body.uid });
     res.cookie('Authorization', accessToken, [options]);
-    res.status(200).json({
+    res.status(200);
+    res.json({
       message: "Log in successful!"
     });
 
