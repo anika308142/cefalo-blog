@@ -1,4 +1,4 @@
-const json2html = require('node-json2html');
+const json2html = require('json2html');
 var json2xml = require('json2xml');
 function contentNegotiation(res, body) {
   res.format({

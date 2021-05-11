@@ -1,13 +1,14 @@
 const db = require('../models');
-var generateToken = require('../utils/generateToken');
 const User = db.User;
+var generateToken = require('../utils/generateToken');
 let options = {};
-const errHandler = (err) => {
-  console.error("Error", err);
-}
+// const errHandler = (err) => {
+//   console.error("Error", err);
+// }
 exports.createUser = async (req, res) => {
   if (!req.body.uid || !req.body.password) {
-    res.status(400).json({
+    res.status(400);
+    res.json({
       message: "Username or password can not be empty!"
     });
     return;
@@ -19,59 +20,39 @@ exports.createUser = async (req, res) => {
       name: req.body.name,
       password: req.body.password
     }
-  }).catch(errHandler);
+  });
   if (created) {
     const token = await generateToken.generateAccessToken({ uid: req.body.uid });
     res.cookie('Authorization', token, [options]);
-    res.status(201).json({ message: "Registration Successful!" });
+    res.status(201);
+    res.json({ message: "Registration Successful!" });
   }
+
   else {
     res.cookie('Authorization', 'null', [options])
-    res.status(409).json({ message: "User already exists please login!" });
+    res.status(409);
+    res.json({ message: "User already exists please login!" });
   }
 };
 exports.loginUser = async (req, res) => {
-  // console.log(req)
-  // console.log(req.body.uid)
   if (!req.body.uid || !req.body.password) {
-    // res.status(400).json({
-    //   message: "Username or password can not be empty!"
-    // });
     res.status(400);
-    res.json({ 
-      message: "Username or password can not be empty!" 
-    });
-    return;
-  }
- 
-  let users = await User.findOne({
-    where: {
-      uid: req.body.uid,
-    }
-  }).catch(errHandler);
-  // console.log(users.password+'shit')
-  // console.log(users.uid+'shit')
-   console.log(User)
-  //console.log(users)
-  if (users == null) {
-    res.cookie('Authorization', 'null', [options]);
-    res.status(404);
     res.json({
-      message: "User not found please register!"
+      message: "Username or password can not be empty!"
     });
     return;
   }
-  users = await User.findOne({
+  let users = await User.findOne({
     where: {
       uid: req.body.uid,
       password: req.body.password
     }
-  }).catch(errHandler);
+  });
   if (users == null) {
     res.cookie('Authorization', 'null', [options]);
-    res.status(403);
+    res.status(404);
     res.json({
-      message: "Password is incorrect!"
+      message: "User ID or Password is incorrect!"
     });
   }
   else {

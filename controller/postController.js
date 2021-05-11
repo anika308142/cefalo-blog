@@ -4,36 +4,27 @@ const contentNegotiation = require('../utils/contentNegotiation');
 const Post = db.Post;
 const User = db.User;
 const { Op } = require("sequelize");
-const errHandler = (err) => {
-  console.error("Error", err);
-}
+
 exports.createPost = async (req, res) => {
   if (!req.body.title || !req.body.story) {
-    res.status(400).json({
+    res.status(400);
+    res.json({
       message: "Title or story must not be empty"
 
     })
     return;
   }
-  let pid;
-  let uniqueId = 0;
-  while (uniqueId != 1) {
-    pid = nanoid();
-    const posts = await Post.findOne({
-      where: {
-        pid: pid
-      }
-    }).catch(errHandler);
-    if (posts == null) { uniqueId = 1; }
-
-  }
+  let d=new Date();
+  let  pid = nanoid()+req.user.uid+d.toISOString()+Date.now();
+  console.log(pid);
   const post = await Post.create({
     pid: pid,
     uid: req.user.uid,
     title: req.body.title,
     story: req.body.story
-  }).catch(errHandler);
-  res.status(201).json(
+  });
+  res.status(201);
+  res.json(
     {
       message: "Story posted successfully!"
     }
@@ -44,10 +35,12 @@ exports.readPost = async (req, res) => {
   console.log("in post read  contrroller");
   const posts = await Post.findAll();
   if (posts) {
+    res.status(200);
     contentNegotiation(res, posts);
   }
   else {
-    res.status(404).json({
+    res.status(404);
+    res.json({
       message: "Not found!"
 
     });
@@ -59,12 +52,14 @@ exports.readPostbyPid = async (req, res) => {
     where: {
       pid: req.params.pid,
     }
-  }).catch(errHandler);
+  });
   if (posts) {
+    res.status(200);
     contentNegotiation(res, posts);
   }
   else {
-    res.status(404).json({
+    res.status(404);
+    res.json({
       message: "Not found!"
 
     });
@@ -82,9 +77,11 @@ exports.updatePost = async (req, res) => {
       pid: req.params.pid,
       uid: req.user.uid,
     }
-  }).catch(errHandler);
-  if (posts == 1) { res.status(200).json({ message: "Updated" }); }
-  else { res.status(403).json({ message: "Failed" }); }
+  });
+  if (posts == 1) { res.status(200);
+    res.json({ message: "Updated" }); }
+  else { res.status(403);
+    res.json({ message: "Failed" }); }
 
 };
 
@@ -95,8 +92,10 @@ exports.deletePost = async (req, res) => {
       pid: req.params.pid,
       uid: req.user.uid,
     }
-  }).catch(errHandler);
-  if (posts == 1) { res.status(200).json({ message: "Deleted" }); }
-  else { res.status(403).json({ message: "Failed" }); }
+  });
+  if (posts == 1) { res.status(200);
+    res.json({ message: "Deleted" }); }
+  else { res.status(403);
+    res.json({ message: "Failed" }); }
 
 };
