@@ -26,10 +26,7 @@ function contentNegotiation(res, body) {
       body = JSON.parse(body);
       body = json2xml(body);
       res.send(body);
-    },
-    default: function () {
-      res.json(body);
-    },
+    }
   });
 }
 

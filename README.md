@@ -12,3 +12,31 @@
   ...entNegotiation.js |   28.57 |      100 |   16.67 |   28.57 | 6-31              
   generateToken.js     |     100 |      100 |     100 |     100 |                   
 -----------------------|---------|----------|---------|---------|-------------------
+After integration test 
+-----------------------|---------|----------|---------|---------|-------------------File                   | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-----------------------|---------|----------|---------|---------|-------------------All files              |   98.33 |    91.89 |   95.83 |   98.29 |                   
+ blog                  |     100 |      100 |     100 |     100 |                   
+  app.js               |     100 |      100 |     100 |     100 |                   
+ blog/controller       |     100 |      100 |     100 |     100 |                   
+  postController.js    |     100 |      100 |     100 |     100 |                   
+  userController.js    |     100 |      100 |     100 |     100 |                   
+ blog/middleware       |     100 |      100 |     100 |     100 |                   
+  authenticateToken.js |     100 |      100 |     100 |     100 |                   
+ blog/models           |   93.75 |    66.67 |     100 |   93.75 |                   
+  index.js             |   91.67 |    66.67 |     100 |   91.67 | 13,37             
+  post.js              |     100 |      100 |     100 |     100 |                   
+  user.js              |     100 |      100 |     100 |     100 |                   
+ blog/routes           |      96 |      100 |       0 |      96 |                   
+  index.js             |   88.89 |      100 |       0 |   88.89 | 7                 
+  posts.js             |     100 |      100 |     100 |     100 |                   
+  users.js             |     100 |      100 |     100 |     100 |                   
+ blog/utils            |     100 |      100 |     100 |     100 |                   
+  ...entNegotiation.js |     100 |      100 |     100 |     100 |                   
+  generateToken.js     |     100 |      100 |     100 |     100 |                   
+-----------------------|---------|----------|---------|---------|-------------------
+
+Test Suites: 4 passed, 4 total
+Tests:       33 passed, 33 total
+Snapshots:   0 total
+Time:        4.964 s
+Ran all test suites.
